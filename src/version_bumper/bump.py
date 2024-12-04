@@ -60,6 +60,7 @@ def main():
     bump_parser = subparsers.add_parser("bump", help="Bump the version")
     bump_parser.add_argument("new_version", type=str, help="Version to bump to")
     bump_parser.add_argument(
+        "-a",
         "--active",
         action="store_true",
         help="Only bump the active version. Pyproject unaffected.",
