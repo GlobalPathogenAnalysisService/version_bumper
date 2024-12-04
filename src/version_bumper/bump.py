@@ -111,9 +111,20 @@ def main():
             file_data = file_data.replace(active_ver, args.new_version)
             new_files[file_path] = file_data
 
-    pyproject_data["tool"]["version_bumper"]["active_version"] = args.new_version
-    if not args.active:
-        pyproject_data["project"]["version"] = args.new_version
+    # Ugly way of updating toml to not affect formatting
+    with open("pyproject.toml", "r", encoding="utf-8") as file:
+        lines = file.readlines()
+        new_lines = []
+        for line in lines:
+            if line.startswith("version") and not args.active:
+                new_lines.append(line.replace(pyproject_ver, args.new_version))
+            elif line.startswith("active_version"):
+                new_lines.append(line.replace(active_ver, args.new_version))
+            else:
+                new_lines.append(line)
+
+        file_data = "".join(new_lines)
+        new_files["pyproject.toml"] = file_data
 
     # All worked so now replace files
     with open("pyproject.toml", "w", encoding="utf-8") as file:
