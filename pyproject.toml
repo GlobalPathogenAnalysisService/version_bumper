@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools~=68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "version_bumper"
+description = "Tool for bumping versions."
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.9,<4.0"
+version = "1.0.0"
+dependencies = ["toml"]
+
+[project.scripts]
+bumper = "version_bumper.bump:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "mypy>=1.9.0", "pre-commit>=3.2.2", "ruff>=0.1.2"]
+
+[tool.mypy]
+[[tool.mypy.overrides]]
+module = "version_bumper.*"
+ignore_missing_imports = true
+
+[tool.version_bumper]
+active_version = "1.0.0"
+version_files = []
